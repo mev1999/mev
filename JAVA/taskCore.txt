@@ -1,0 +1,381 @@
+package com.javarush.task.task13.task1326;
+
+/* 
+Сортировка четных чисел из файла
+1. Ввести имя файла с консоли.
+2. Прочитать из него набор чисел.
+3. Вывести на консоль только четные, отсортированные по возрастанию.
+*/
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        // напишите тут ваш код
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String fileName = reader.readLine();
+        InputStream inStream = new FileInputStream(fileName);
+        BufferedReader fileReader = new BufferedReader(new InputStreamReader(inStream));
+
+        ArrayList<Integer> array = new ArrayList<Integer>();
+
+        while (fileReader.ready())
+        {
+            String line = fileReader.readLine();
+            int data = Integer.parseInt(line); //читаем строку - число из потока для чтения (файла)
+            if(data % 2 == 0) array.add(data);
+        }
+        inStream.close(); //закрываем потоки
+        reader.close();
+        fileReader.close();
+        Collections.sort(array);
+        for (int value : array) System.out.println(value);
+    }
+}
+
+package com.javarush.task.task14.task1404;
+/* 
+Коты
+1. Считывать строки(параметры) с консоли, пока пользователь не введет пустую строку(Enter).
+2. Каждый параметр соответствует имени кота.
+Для каждого параметра:
+3. Создать объект cat класса Cat, который равен коту из getCatByKey(String параметр).
+4. Вывести на экран cat.toString().
+*/
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+public class Solution {
+    public static void main(String[] args) throws Exception {
+        //напишите тут ваш код
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String catName = reader.readLine();
+        ArrayList<Cat> cats = new ArrayList<Cat>();
+
+        while (!catName.isEmpty()) {
+            cats.add(CatFactory.getCatByKey(catName));
+            catName = reader.readLine();
+        }
+        for (Cat cat : cats ) System.out.println(cat);
+    }
+
+    static class CatFactory {
+        static Cat getCatByKey(String key) {
+            Cat cat = null;
+            if ("vaska".equals(key)) {
+                cat = new MaleCat("Василий");
+            } else if ("murka".equals(key)) {
+                cat = new FemaleCat("Мурочка");
+            } else if ("kiska".equals(key)) {
+                cat = new FemaleCat("Кисюлька");
+            } else {
+                cat = new Cat(key);
+            }
+            return cat;
+        }
+    }
+
+    static class Cat {
+        private String name;
+
+        protected Cat(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public String toString() {
+            return "Я уличный кот " + getName();
+        }
+    }
+
+    static class MaleCat extends Cat {
+        MaleCat(String name) {
+            super(name);
+        }
+
+        public String toString() {
+            return "Я - солидный кошак по имени " + getName();
+        }
+    }
+
+    static class FemaleCat extends Cat {
+        FemaleCat(String name) {
+            super(name);
+        }
+
+        public String toString() {
+            return "Я - милая кошечка по имени " + getName();
+        }
+    }
+}
+
+package com.javarush.task.task14.task1420;
+
+/* 
+НОД
+1. Программа должна считывать с клавиатуры 2 строки.
+2. В случае если введенные строки невозможно преобразовать в положительные целые числа, должно возникать исключение.
+3. Программа должна выводить данные на экран.
+4. Программа должна выводить на экран наибольший общий делитель(НОД) чисел считанных с клавиатуры и успешно завершаться.
+*/
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class Solution {
+    public static void main(String[] args) throws Exception {
+
+        int num1, num2;
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            num1 = Integer.parseInt(reader.readLine());
+            num2 = Integer.parseInt(reader.readLine());
+            if (num1 <= 0 || num2 <= 0) throw new NumberFormatException();
+        }
+        catch (NumberFormatException e) {
+            System.out.println("Необходимо ввести 2 положительных целых числа");
+            throw e;
+        }
+
+        int nod = 1;
+
+        int end = num1 < num2 ? num1 : num2;
+        int n1 = num1, n2 = num2;
+
+        for (int i = 2; i <= end; i++)
+            if ( (( n1 % i) == 0) && ((n2 % i) == 0)) {
+                nod *= i;
+                end /= i;
+                n1 /= i;
+                n2 /= i;
+                i = 2;
+            }
+        System.out.println(nod);
+    }
+}
+
+package com.javarush.task.task15.task1519;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+/* 
+Разные методы для разных типов
+1. Считать с консоли данные, пока не введено слово "exit".
+2. Для каждого значения, кроме "exit", вызвать метод print. Если значение:
+2.1. содержит точку '.', то вызвать метод print для Double;
+2.2. больше нуля, но меньше 128, то вызвать метод print для short;
+2.3. меньше либо равно нулю или больше либо равно 128, то вызвать метод print для Integer;
+2.4. иначе, вызвать метод print для String.
+
+*/
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        //напиште тут ваш код
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        ArrayList<String> array = new ArrayList<String>();
+        String str;
+        do {
+            str = reader.readLine();
+            if(!"exit".equals(str)) array.add(str);
+        }
+        while(!"exit".equals(str));
+
+        int intValue;
+
+        for (String value : array) {
+            try {
+                if( value.contains(".")) print(Double.valueOf(value));
+                else {
+                    intValue = Integer.parseInt(value);
+                    if (intValue > 0 && intValue < 128) print((short) intValue);
+                    else print((Integer)intValue);
+                }
+            }
+            catch (NumberFormatException e) {
+                print(value);
+            }
+        }
+    }
+
+    public static void print(Double value) {
+        System.out.println("Это тип Double, значение " + value);
+    }
+
+    public static void print(String value) {
+        System.out.println("Это тип String, значение " + value);
+    }
+
+    public static void print(short value) {
+        System.out.println("Это тип short, значение " + value);
+    }
+
+    public static void print(Integer value) {
+        System.out.println("Это тип Integer, значение " + value);
+    }
+}
+
+package com.javarush.task.task17.task1710;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+/* 
+Программа запускается с одним из следующих наборов параметров:
+
+-c name sex bd
+-u id name sex bd
+-d id
+-i id
+
+Значения параметров:
+name - имя, String
+sex - пол, "м" или "ж", одна буква
+bd - дата рождения в следующем формате 15/04/1990
+-c - добавляет человека с заданными параметрами в конец allPeople, выводит id (index) на экран
+-u - обновляет данные человека с данным id
+-d - производит логическое удаление человека с id, заменяет все его данные на null
+-i - выводит на экран информацию о человеке с id: name sex (м/ж) bd (формат 15-Apr-1990)
+id соответствует индексу в списке
+
+Все люди должны храниться в allPeople
+Используйте Locale.ENGLISH в качестве второго параметра для SimpleDateFormat
+
+Пример параметров:
+-c Миронов м 15/04/1990
+
+Пример вывода для параметра -і:
+Миронов м 15-Apr-1990
+*/
+
+public class Solution {
+    public static List<Person> allPeople = new ArrayList<Person>();
+
+    static {
+        allPeople.add(Person.createMale("Иванов Иван", new Date()));  //сегодня родился    id=0
+        allPeople.add(Person.createMale("Петров Петр", new Date()));  //сегодня родился    id=1
+    }
+
+    public static void main(String[] args) throws Exception {
+        //start here - начни тут
+        if(args.length > 0) { // есть аргументы
+            if("-c".equals(args[0])) {
+                if(args.length == 4) {
+                    String name = args[1];
+                    Sex sex = ("м".equals(args[2]) ? Sex.MALE : ("ж".equals(args[2]) ? Sex.FEMALE : null));
+                    if(sex == null) {
+                        System.out.println("Неверный пол (м/ж)");
+                        return;
+                    }
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    Date birthday = format.parse(args[3]);
+                    if(sex == Sex.MALE) allPeople.add(Person.createMale(name, birthday));
+                    if(sex == Sex.FEMALE) allPeople.add(Person.createFemale(name, birthday));
+                    System.out.println(allPeople.size()-1);
+                }
+                else System.out.println("Неверное количество аргументов -с");
+            }
+            if("-u".equals(args[0])) {
+                if(args.length == 5) {
+                    int id = Integer.parseInt(args[1]);
+                    String name = args[2];
+                    Sex sex = ("м".equals(args[3]) ? Sex.MALE : ("ж".equals(args[3]) ? Sex.FEMALE : null));
+                    if(sex == null) {
+                        System.out.println("Неверный пол (м/ж)");
+                        return;
+                    }
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    Date birthday = format.parse(args[4]);
+                    if(sex == Sex.MALE) allPeople.set(id,Person.createMale(name, birthday));
+                    if(sex == Sex.FEMALE) allPeople.set(id,Person.createFemale(name, birthday));
+                }
+                else System.out.println("Неверное количество аргументов -u");
+            }
+            if("-d".equals(args[0])) {
+                if (args.length == 2) {
+                    int id = Integer.parseInt(args[1]);
+                    Person nullPerson = Person.createFemale(null, null);
+                    nullPerson.setSex(null);
+                    allPeople.set(id,nullPerson);
+                }
+                else System.out.println("Неверное количество аргументов -d");
+            }
+
+            if("-i".equals(args[0])) {
+                if (args.length == 2) {
+                    int id = Integer.parseInt(args[1]);
+                    System.out.println(allPeople.get(id));
+//                    allPeople.remove(id);
+                }
+                else System.out.println("Неверное количество аргументов -i");
+            }
+        }
+    }
+}
+
+package com.javarush.task.task18.task1825;
+
+import java.io.*;
+import java.util.Comparator;
+import java.util.Set;
+import java.util.TreeSet;
+
+/* 
+Собираем файл
+Собираем файл из кусочков.
+Считывать с консоли имена файлов.
+Каждый файл имеет имя: [someName].partN.
+
+Например, Lion.avi.part1, Lion.avi.part2, ..., Lion.avi.part37.
+
+Имена файлов подаются в произвольном порядке. Ввод заканчивается словом "end".
+В папке, где находятся все прочтенные файлы, создать файл без суффикса [.partN].
+
+Например, Lion.avi.
+
+В него переписать все байты из файлов-частей используя буфер.
+Файлы переписывать в строгой последовательности, сначала первую часть, потом вторую, ..., в конце - последнюю.
+
+*/
+
+public class Solution {
+    public static void main(String[] args) throws Exception {
+        TreeSet<Integer> files = new TreeSet<Integer>();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        String fileStart = null;
+
+        String str;
+        while(!"end".equals(str=reader.readLine())) {
+            String[] parts;
+            parts = str.split("\\.");
+            if(fileStart == null) fileStart = str.substring(0, str.length() - parts[parts.length - 1].length() - 1);
+            files.add(Integer.parseInt(parts[parts.length - 1].substring(4)));
+        }
+
+        FileOutputStream out = new FileOutputStream(fileStart);
+
+        for (Integer num: files) {
+            FileInputStream in = new FileInputStream(fileStart + ".part" + num);
+            byte[] buffer = new byte[in.available()];
+            int len = in.read(buffer);
+            out.write(buffer,0, len);
+            in.close();
+        }
+        out.close();
+    }
+}

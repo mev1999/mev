@@ -1,0 +1,13 @@
+
+   BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+   num = Integer.parseInt(reader.readLine());
+
+************************************************
+        InputStream inStream = new FileInputStream(fileName);
+        while (inStream.available() > 0) {
+            int data = inStream.read(); 
+        }
+        inStream.close(); 
+
+******************************************
+        ArrayList<Integer> array = new ArrayList<Integer>();

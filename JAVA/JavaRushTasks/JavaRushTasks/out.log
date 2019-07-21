@@ -1,0 +1,12 @@
+2019-07-21 11:24:46 INFO  ApacheHttpClient.createAsyncHttpClient(125) - Выбрано 1 прокси.
+2019-07-21 11:24:46 INFO  ApacheHttpClient.<init>(85) - ApacheHttpClient проинстанциирован успешно.
+2019-07-21 11:24:46 INFO  ApacheHttpClient.testConnection(178) - responseCode = 200
+2019-07-21 11:24:46 INFO  ApacheHttpClient.testConnection(185) - result = true
+2019-07-21 11:24:47 INFO  ApacheHttpClient.login(209) - Ожидание ответа сервера.
+2019-07-21 11:24:47 INFO  ApacheHttpClient.login(209) - Ожидание ответа сервера.
+2019-07-21 11:24:47 INFO  ApacheHttpClient.login(213) - responseCode = 200
+2019-07-21 11:24:47 INFO  ApacheHttpClient.login(244) - JSESSIONID=8CD99B63879A0AF5906AAD38CA6CA18F
+2019-07-21 11:24:47 INFO  ApacheHttpClient.refreshUserInfo(272) - responseCode = 200
+2019-07-21 11:24:47 INFO  ApacheHttpClient.refreshUserInfo(278) - Информация о пользователе получена.
+2019-07-21 11:24:47 INFO  ApacheHttpClient.startGA(32) - GAService запущен.
+2019-07-21 11:24:47 INFO  AbstractRestApiClient.startService(70) - EventsService запущен.
